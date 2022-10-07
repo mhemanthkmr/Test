@@ -1,1 +1,68 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CryptoZombies front-end</title>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./contracts/ethicelectronics_abi.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      var cryptoZombies;
+      var userAccount;
+      function startApp() {
+        var cryptoZombiesAddress = "0x677e39b6Bc8FDD4c7b664c88aD38e45F5e781A2e";
+        cryptoZombies = new web3js.eth.Contract(
+          ethicelectronicsABI,
+          cryptoZombiesAddress
+        );
+        console.log(getContractName());
+        // 2. Create `setInterval` code here
+      }
+      //   cryptoZombies.methods.getAllStudents
+      //     .call({ from: "0x579dC62668b36161A0a8faBf8406700eA4D5b47d" })
+      //     .then(function result() {
+      //       console.log(result);
+      //     });
+
+      function getContractName() {
+        cryptoZombies.methods
+          .getContractName()
+          .call(
+            { from: "0x579dC62668b36161A0a8faBf8406700eA4D5b47d" },
+            function (error, result) {
+              console.log(result);
+            }
+          );
+      }
+      window.addEventListener("load", function () {
+        // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+        if (typeof web3 !== "undefined") {
+          // Use Mist/MetaMask's provider
+          web3js = new Web3(web3.currentProvider);
+          console.log(web3js);
+        } else {
+          // Handle the case where the user doesn't have Metamask installed
+          // Probably show them a message prompting them to install Metamask
+          console.log("Install Metamask");
+        }
+
+        // Now you can start your app & access web3 freely:
+        startApp();
+      });
+    </script>
+  </body>
+</html>
